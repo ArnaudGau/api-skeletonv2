@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\{{ studly }}\StoreRequest;
+use App\Http\Requests\{{ studly }}\UpdateRequest;
+use App\Http\Resources\{{ studly }}Resource;
+use App\Models\{{ studly }};
+use App\Queries\{{ studly }}Query;
+use Illuminate\Http\Request;
+
+class {{ studly }}Controller extends BaseCrudController
+{
+    protected function modelClass(): string
+    {
+        return {{ studly }}::class;
+    }
+
+    protected function resourceClass(): string
+    {
+        return {{ studly }}Resource::class;
+    }
+
+    protected function queryClass(Request $request)
+    {
+        return new {{ studly }}Query($request);
+    }
+
+    protected function storeRequestClass(): string
+    {
+        return StoreRequest::class;
+    }
+
+    protected function updateRequestClass(): string
+    {
+        return UpdateRequest::class;
+    }
+}
+

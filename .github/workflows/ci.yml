@@ -1,0 +1,67 @@
+name: Fast Laravel CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: |
+            src/vendor
+            ~/.composer/cache
+          key: composer-${{ hashFiles('src/composer.lock') }}
+
+      - name: Install dependencies
+        working-directory: ./src
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Run Pint
+        working-directory: ./src
+        run: ./vendor/bin/pint --test
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: |
+            src/vendor
+            ~/.composer/cache
+          key: composer-${{ hashFiles('src/composer.lock') }}
+
+      - name: Install dependencies
+        working-directory: ./src
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare Laravel
+        working-directory: ./src
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run tests
+        working-directory: ./src
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+        run: php artisan test --parallel

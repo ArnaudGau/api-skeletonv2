@@ -1,0 +1,12 @@
+<?php
+
+use App\Http\Controllers\{{ studly }}Controller;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', [{{ studly }}Controller::class, 'index']);
+Route::post('/', [{{ studly }}Controller::class, 'store']);
+Route::get('/{id}', [{{ studly }}Controller::class, 'show']);
+Route::put('/{id}', [{{ studly }}Controller::class, 'update']);
+Route::patch('/{id}', [{{ studly }}Controller::class, 'update']);
+Route::delete('/{id}', [{{ studly }}Controller::class, 'destroy']);
+

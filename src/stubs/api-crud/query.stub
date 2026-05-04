@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Queries;
+
+use App\Models\{{ studly }};
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+
+class {{ studly }}Query
+{
+    public function __construct(private readonly Request $request)
+    {
+    }
+
+    public function paginate(int $perPage)
+    {
+        return $this->query()->paginate($perPage);
+    }
+
+    public function query(): Builder
+    {
+        ${{ camel }} = {{ studly }}::query();
+
+        return ${{ camel }};
+    }
+}
+
