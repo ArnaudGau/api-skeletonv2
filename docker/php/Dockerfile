@@ -26,4 +26,8 @@ RUN php artisan key:generate || true
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-CMD ["php-fpm"]
+COPY ./docker/php/startup.sh /usr/local/bin/startup.sh
+
+RUN chmod +x /usr/local/bin/startup.sh
+
+ENTRYPOINT ["startup.sh"]
